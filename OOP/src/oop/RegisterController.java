@@ -21,10 +21,20 @@ public class RegisterController implements Initializable {
     @FXML
     private Label label_txt;
     
+    private User user;
+    
     @FXML
-    private void register_clicked(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label_txt.setText("Hello World!");
+    private void register_clicked(ActionEvent event) throws Exception {
+        String keyword="hello";
+        News news=new News();
+        news.search(keyword);
+    }
+    
+    public void init(User getuser)
+    {
+        user=new User();
+        user=getuser;
+        System.out.println(user.getUsername());
     }
     
     @Override

@@ -5,10 +5,14 @@
  */
 package oop;
 
+import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -17,12 +21,15 @@ import javafx.stage.Stage;
  */
 public class OOP extends Application {
     
+    @FXML private Button login_button;
+    Stage pstage;
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Register.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        
+        pstage=stage;        
         stage.setScene(scene);
         stage.show();
     }

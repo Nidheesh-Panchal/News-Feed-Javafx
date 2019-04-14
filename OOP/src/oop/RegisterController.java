@@ -7,10 +7,13 @@ package oop;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 
 /**
  *
@@ -22,12 +25,16 @@ public class RegisterController implements Initializable {
     private Label label_txt;
     
     private User user;
-    
+    @FXML
+    private ComboBox register_country;
     @FXML
     private void register_clicked(ActionEvent event) throws Exception {
         String keyword="hello";
         News news=new News();
         news.search(keyword);
+       // SingleSelectionModel sw=new SingleSelectionModel();
+       
+        
     }
     
     public void init(User getuser)
@@ -40,6 +47,8 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        String country[] = { "in","us", "uk"}; 
+       register_country.setItems(FXCollections.observableArrayList(country)); 
     }    
     
 }

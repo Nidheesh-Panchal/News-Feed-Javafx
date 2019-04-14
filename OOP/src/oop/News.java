@@ -32,7 +32,8 @@ public class News
         Map<String, String> parameters = new HashMap<>();
         String newseverything="https://newsapi.org/v2/everything?";
         String newstopheadlines="https://newsapi.org/v2/top-headlines?";
-        parameters.put("q", "bitcoin");
+        parameters.put("country", "in");
+        parameters.put("category","business");
         parameters.put("apiKey",APP_ID);
         newseverything+=ParameterStringBuilder.getParamsString(parameters);
         System.out.println(newseverything);
@@ -43,8 +44,7 @@ public class News
         
         int status = con.getResponseCode();
         
-        BufferedReader in = new BufferedReader(
-        new InputStreamReader(con.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         int count=0;
         JSONObject response=null;
@@ -59,7 +59,7 @@ public class News
         String result=content.toString();
         JSONObject res=new JSONObject(result);
         String stat=res.getString("status");
-        //System.out.println(stat);
+        System.out.println(stat);
         System.out.println(result);
 //        JSONObject response=null;
 

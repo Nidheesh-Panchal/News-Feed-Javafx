@@ -139,13 +139,6 @@ public class RegisterController implements Initializable {
         stage.show();
     }
     
-    public void init(User getuser)
-    {
-        user=new User();
-        user=getuser;
-        System.out.println(user.getUsername());
-    }
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

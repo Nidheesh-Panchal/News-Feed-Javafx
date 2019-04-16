@@ -41,13 +41,7 @@ public class FXMLDocumentController implements Initializable {
         FXMLLoader loader=new FXMLLoader();
         loader.setLocation(getClass().getResource("Register.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        
-//        user=new User();
-//        user.setUsername("Nidheesh");
-        //RegisterController controller=loader.getController();
-        //controller.init(user);
-        
+        Scene scene = new Scene(root);        
         Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -69,6 +63,12 @@ public class FXMLDocumentController implements Initializable {
             loader.setLocation(getClass().getResource("main.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
+            
+            user=new User();
+            user.setUsername(username);
+            MainController controller=loader.getController();
+            controller.init(user);
+
                
         //RegisterController controller=loader.getController();
        

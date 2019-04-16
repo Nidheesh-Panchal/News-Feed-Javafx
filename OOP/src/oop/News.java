@@ -9,11 +9,12 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
+import java.util.*;
+import java.util.LinkedList;
 import java.util.Map;
 import org.json.JSONObject;
 
@@ -29,12 +30,17 @@ public class News
     
     public static void search(String keyword) throws Exception
     {
-        Map<String, String> parameters = new HashMap<>();
+        //Map<String, String> parameters = new HashMap<>();
+        Queue<String> q = new LinkedList<>(); 
         String newseverything="https://newsapi.org/v2/everything?";
         String newstopheadlines="https://newsapi.org/v2/top-headlines?";
-        parameters.put("q", "bitcoin");
-        parameters.put("apiKey",APP_ID);
-        newseverything+=ParameterStringBuilder.getParamsString(parameters);
+//        q.add("country");
+//        q.add("in");
+        q.add("q");
+        q.add(keyword);
+        q.add("apiKey");
+        q.add(APP_ID);
+        newseverything+=ParameterStringBuilder.getParamsString(q);
         System.out.println(newseverything);
         
         URL url = new URL(newseverything);
@@ -43,8 +49,7 @@ public class News
         
         int status = con.getResponseCode();
         
-        BufferedReader in = new BufferedReader(
-        new InputStreamReader(con.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         int count=0;
         JSONObject response=null;
@@ -59,7 +64,7 @@ public class News
         String result=content.toString();
         JSONObject res=new JSONObject(result);
         String stat=res.getString("status");
-        //System.out.println(stat);
+        System.out.println(stat);
         System.out.println(result);
 //        JSONObject response=null;
 

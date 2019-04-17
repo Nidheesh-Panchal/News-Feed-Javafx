@@ -41,13 +41,7 @@ public class FXMLDocumentController implements Initializable {
         FXMLLoader loader=new FXMLLoader();
         loader.setLocation(getClass().getResource("Register.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        
-//        user=new User();
-//        user.setUsername("Nidheesh");
-        //RegisterController controller=loader.getController();
-        //controller.init(user);
-        
+        Scene scene = new Scene(root);        
         Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -57,27 +51,30 @@ public class FXMLDocumentController implements Initializable {
     private void login_clicked(ActionEvent event) throws IOException {
        String username=login_username.getText();
        String pwd=login_pwd.getText();
-       System.out.println(username);
-        System.out.println(pwd);
+//       System.out.println(username);
+//        System.out.println(pwd);
         login_username.setText("");
         login_pwd.setText("");
         ConnectDatabase connect=new ConnectDatabase();
         boolean res=connect.loginDb(username, pwd);
         if (res)
         {
-            user=new User();
-            user.setUsername("Nidheesh");
             FXMLLoader loader=new FXMLLoader();
-            loader.setLocation(getClass().getResource("Register.fxml"));
+            loader.setLocation(getClass().getResource("main.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-        
-       
+            
+            user=new User();
+            user.setUsername(username);
+            MainController controller=loader.getController();
+            controller.init(user);
+
+               
         //RegisterController controller=loader.getController();
        
-        Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+            Stage stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         }
         else
         {

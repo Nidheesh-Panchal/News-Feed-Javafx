@@ -6,8 +6,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oop.MainController">
    <children>
-      <TextField fx:id="search_text" layoutX="352.0" layoutY="14.0" promptText="Search" />
-      <Button fx:id="search_button" layoutX="510.0" layoutY="14.0" mnemonicParsing="false" onAction="#search_clicked" style="-fx-border-radius: 30;" text="Search!" />
-      <Button fx:id="logout_button" layoutX="37.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout_clicked" text="Button" />
+      <TextField fx:id="search_text" layoutX="398.0" layoutY="14.0" promptText="Search" />
+      <Button fx:id="search_button" layoutX="556.0" layoutY="14.0" mnemonicParsing="false" onAction="#search_clicked" style="-fx-border-radius: 30;" />
+      <Button fx:id="logout_button" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout_clicked" text="Logout" />
+      <Button id="settings_clicked" fx:id="settings_button" layoutX="87.0" layoutY="14.0" mnemonicParsing="false" onAction="#settings_clicked" text="Settings" />
+      <Button id="reload_clicked" fx:id="refresh_button" layoutX="169.0" layoutY="14.0" mnemonicParsing="false" onAction="#refresh_clicked" text="Refresh" />
+      <AnchorPane fx:id="main_news" layoutX="13.0" layoutY="47.0" maxHeight="350.0" maxWidth="575.0" minHeight="350.0" minWidth="575.0" prefHeight="350.0" prefWidth="575.0" />
    </children>
 </AnchorPane>

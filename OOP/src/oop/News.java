@@ -65,14 +65,16 @@ public class News
     
     final static String APP_ID="379ffae9a00341d8b3360ad895d59c1f";
     
-    public static void search(String keyword) throws Exception
+    public static ArrayList<NewsArray> everything(String keyword,String sort) throws Exception
     {
 //        Map<String, String> parameters = new HashMap<>();
         Queue<String> q=new LinkedList<>();
         String newseverything="https://newsapi.org/v2/everything?";
-        String newstopheadlines="https://newsapi.org/v2/top-headlines?";
+        //String newstopheadlines="https://newsapi.org/v2/top-headlines?";
         q.add("q");
         q.add(keyword);
+        q.add("sortBy");
+        q.add(sort);
         q.add("apiKey");
         q.add(APP_ID);
         newseverything+=ParameterStringBuilder.getParamsString(q);
@@ -107,12 +109,417 @@ public class News
             
         }
         
+        
 //        System.out.println(list);
-        Collections.sort(list, new MyJSONComparator());
-        System.out.println(list);
+//        Collections.sort(list, new MyJSONComparator());
+//        System.out.println(list);
         String stat=res.getString("status");
         System.out.println(stat);
+        System.out.println(result);
+        System.out.println(list.get(0));
+        return NewsArray.convert(list);
+//        JSONObject response=null;
+
+//        BufferedReader rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        String line;
+//        while((line=rd.readLine())!=null)
+//        {
+//            result.append(line);
+//        }
 //        System.out.println(result);
+//        
+//        Map<String,Object> resMap=jsonToMap(result.toString());
+//        Map<String,Object> mainMap=jsonToMap(resMap.get("status").toString());
+//        Map<String,Object> windMap=jsonToMap(resMap.get("totalResults").toString());
+//        
+//        System.out.println("Status : "+mainMap.get("status"))
+    }
+    
+    public static ArrayList<NewsArray> topheadlines(String username) throws Exception
+    {
+//        Map<String, String> parameters = new HashMap<>();
+        Queue<String> q=new LinkedList<>();
+        //String newseverything="https://newsapi.org/v2/everything?";
+        String newstopheadlines="https://newsapi.org/v2/top-headlines?";
+        
+        ConnectDatabase conn=new ConnectDatabase();
+        String country=conn.getcountry(username);
+        Queue<Integer> prefs=new LinkedList<>();
+        
+        prefs=conn.getpreference(username);
+        if(prefs.isEmpty())
+        {
+            q.add("country");
+            q.add(country);
+            q.add("apiKey");
+            q.add(APP_ID);
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count=0;
+            JSONObject response=null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result=content.toString();
+            JSONObject res=new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            ArrayList<JSONObject> list = new ArrayList<>();
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            
+            String stat=res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+            NewsArray.convert(list);
+        }
+        
+        ArrayList<JSONObject> list = new ArrayList<>();
+        int temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("business");
+            q.add("apiKey");
+            q.add(APP_ID);
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("entertainment");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("general");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("health");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("science");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("sports");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+        }
+        temp=prefs.remove();
+        if(temp==1)
+        {
+            newstopheadlines="https://newsapi.org/v2/top-headlines?";
+            while(!q.isEmpty());
+            q.add("country");
+            q.add(country);
+            q.add("category");
+            q.add("technology");
+            q.add("apiKey");
+            q.add(APP_ID);
+            
+            newstopheadlines+=ParameterStringBuilder.getParamsString(q);
+            System.out.println(newstopheadlines);
+            URL url = new URL(newstopheadlines);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            int count = 0;
+            JSONObject response = null;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+            {
+                content.append(inputLine);
+                count++;
+            }
+            in.close();
+            con.disconnect();
+            String result = content.toString();
+            JSONObject res = new JSONObject(result);
+            
+            JSONArray array = (JSONArray) res.get("articles");
+//        System.out.println(array);
+            
+            for (int i = 0; i < array.length(); i++) {
+                list.add((JSONObject) array.get(i));
+            }
+            
+            String stat = res.getString("status");
+            System.out.println(stat);
+            System.out.println(result);
+            
+        }
+        
+        Collections.sort(list, new MyJSONComparator());
+        return NewsArray.convert(list);
+
+        
+        
 //        JSONObject response=null;
 
 //        BufferedReader rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));

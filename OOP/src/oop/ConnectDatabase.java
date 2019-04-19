@@ -6,7 +6,9 @@
 package oop;
 
 import java.sql.*;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  *
@@ -73,6 +75,82 @@ public class ConnectDatabase {
             pst.setString(8,Integer.toString(m.get("science")));
             pst.setString(9,Integer.toString(m.get("sports")));
             pst.setString(10,Integer.toString(m.get("technology")));
+            pst.execute();
+            //conn.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }        
+    }
+    
+    public String getcountry(String username)
+    {
+        conn=connecrDb();
+        String sql = "select country from login where username=?";
+        try
+        {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,username);
+            rs=pst.executeQuery();
+            if (rs.next())
+            {
+                return rs.getNString("country");
+            }
+            //conn.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return "";
+    }
+    
+    public Queue<Integer> getpreference(String username)
+    {
+        Queue<Integer> prefs=new LinkedList<>();
+        conn=connecrDb();
+        String sql = "select * from login where username=?";
+        try
+        {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,username);
+            rs=pst.executeQuery();
+            if (rs.next())
+            {
+                prefs.add(rs.getInt("business"));
+                prefs.add(rs.getInt("entertainment"));
+                prefs.add(rs.getInt("general"));
+                prefs.add(rs.getInt("health"));
+                prefs.add(rs.getInt("science"));
+                prefs.add(rs.getInt("sports"));
+                prefs.add(rs.getInt("technology"));
+            }
+            //conn.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return prefs;
+    }
+    
+    public void editDb(String username,String country,Map<String, Integer> m)
+    {
+        conn=connecrDb();
+        String sql = "update login set country=?,business=?,entertainment=?,general=?,health=?,science=?,sports=?,technology=? where username=?";
+        try
+        {
+            pst = conn.prepareStatement(sql);
+            pst.setString(1,country);
+            pst.setString(2,Integer.toString(m.get("business")));
+            pst.setString(3,Integer.toString(m.get("entertainment")));
+            pst.setString(4,Integer.toString(m.get("general")));
+            pst.setString(5,Integer.toString(m.get("health")));
+            pst.setString(6,Integer.toString(m.get("science")));
+            pst.setString(7,Integer.toString(m.get("sports")));
+            pst.setString(8,Integer.toString(m.get("technology")));
+            pst.setString(9,username);
             pst.execute();
             //conn.close();
         }
